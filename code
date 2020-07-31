@@ -1,0 +1,64 @@
+#include<HardwareSerial.h>
+
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(PA2, PA3,PA4, PA5, PA6, PA7);
+//DEFINE_HWSERIAL(Serial2, 2);
+
+
+const int lpgPin = PB1;
+int lpgstate = 0;
+
+const int buzzerPin = PB0;
+int buzzerState = 0;
+
+
+
+void setup()
+{
+
+  Serial2.begin(9600);
+
+  pinMode(lpgPin, INPUT);
+  pinMode(buzzerPin, OUTPUT);
+  buzzerState = HIGH;
+  digitalWrite(buzzerPin, buzzerState);
+  Serial.begin(9600);
+  lcd.begin(16, 2);
+  lcd.clear();
+  lcd.print("  LPG LEAKAGE");
+  lcd.setCursor(0, 1);
+  lcd.print("DETECTION SYSTEM");
+  Serial2.println("LPG LEAKAGE DETECTION SYSTEM");
+  buzzerState = LOW;
+  digitalWrite(buzzerPin, buzzerState);
+  delay(3000);
+}
+
+void loop()
+{
+
+  lcd.clear();
+  lcd.print("Checking.....");
+
+  lpgstate = digitalRead(lpgPin);
+  if (lpgstate == LOW)
+  {
+    lcd.clear();
+    lcd.print("LPG Detected!!!");
+    Serial2.println("Alert!! LPG Leakage Detected.");
+    buzzerState = HIGH;
+    digitalWrite(buzzerPin, buzzerState);    
+    delay(5000);
+    buzzerState = LOW;
+    digitalWrite(buzzerPin, buzzerState);
+
+  }
+
+  if (lpgstate == HIGH)
+  {
+    buzzerState = LOW;
+    digitalWrite(buzzerPin, buzzerState);
+    delay(500);
+  }
+
+}
