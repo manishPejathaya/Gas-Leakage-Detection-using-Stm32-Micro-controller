@@ -41,7 +41,7 @@ void loop()
   lcd.print("Checking.....");
 
   lpgstate = digitalRead(lpgPin);
-  if (lpgstate == HIGH)
+  if (lpgstate == LOW)
   {
     lcd.clear();
     lcd.print("LPG Detected!!!");
@@ -54,7 +54,7 @@ void loop()
 
   }
 
-  if (lpgstate == LOW)
+  if (lpgstate == HIGH)
   {
     buzzerState = LOW;
     digitalWrite(buzzerPin, buzzerState);
